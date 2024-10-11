@@ -1,5 +1,5 @@
 {
-  "name": "string-slice-memory",
+  "name": "sliced-string-memory-consumption",
   "private": true,
   "version": "0.0.0",
   "type": "module",
