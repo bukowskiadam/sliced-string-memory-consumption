@@ -4,10 +4,10 @@
   // https://github.com/v8/v8/blob/e10e4796e63660e10c2b045a13e5439d63b3097f/src/objects/string.h#L940
   const MIN_SLICED_STRING_LENGTH = 13;
 
-  let strings: string[] = [];
+  let strings: string[] = $state([]);
 
-  $: str = strings.join("");
-  $: count = strings.length;
+  const str = $derived(strings.join(""));
+  const count = $derived(strings.length);
 
   function makeRandomString(): string {
     return Math.random()
@@ -47,10 +47,10 @@
 
 <p>&gt; {count} MB</p>
 <p>
-  <button on:click={addStrings}> Make me a memory problem! </button>
+  <button onclick={addStrings}> Make me a memory problem! </button>
 </p>
 <p>
-  <button on:click={addStrings10x}> Leaky pipe, memory spike! </button>
+  <button onclick={addStrings10x}> Leaky pipe, memory spike! </button>
 </p>
 
 <style>
