@@ -5,9 +5,9 @@
   const MIN_SLICED_STRING_LENGTH = 13;
 
   let strings: string[] = $state([]);
+  let megabytes = $state(0);
 
   const str = $derived(strings.join(""));
-  const count = $derived(strings.length);
 
   function makeRandomString(): string {
     return Math.random()
@@ -24,19 +24,28 @@
     return result.join("");
   }
 
-  const addStrings = () => {
-    const veryLongRandomString = makeVeryLongRandomString(LONG_STRING_LENGTH);
-    const slicedString = veryLongRandomString.substring(
-      0,
-      MIN_SLICED_STRING_LENGTH
-    );
+  const addGoodStrings = () => {
+    for (let i = 0; i < 10; i++) {
+      const veryLongRandomString = makeVeryLongRandomString(LONG_STRING_LENGTH);
+      const slicedString = veryLongRandomString.substring(
+        0,
+        MIN_SLICED_STRING_LENGTH - 1
+      );
 
-    strings = [...strings, slicedString];
+      strings = [...strings, slicedString];
+    }
   };
 
-  const addStrings10x = () => {
+  const addBadStrings = () => {
     for (let i = 0; i < 10; i++) {
-      addStrings();
+      const veryLongRandomString = makeVeryLongRandomString(LONG_STRING_LENGTH);
+      const slicedString = veryLongRandomString.substring(
+        0,
+        MIN_SLICED_STRING_LENGTH
+      );
+
+      strings = [...strings, slicedString];
+      megabytes += 1;
     }
   };
 </script>
@@ -45,12 +54,16 @@
   {str}
 </div>
 
-<p>&gt; {count} MB</p>
+<p>&gt; {megabytes} MB</p>
 <p>
-  <button onclick={addStrings}> Make me a memory problem! </button>
+  <button onclick={addGoodStrings} style="background-color: #bcffa6">
+    This is fine!
+  </button>
 </p>
 <p>
-  <button onclick={addStrings10x}> Leaky pipe, memory spike! </button>
+  <button onclick={addBadStrings} style="background-color: #ffa6a6">
+    Leaky pipe, memory spike!
+  </button>
 </p>
 
 <style>
